@@ -5,7 +5,7 @@ const { AzureMonitorLogExporter } = require("@azure/monitor-opentelemetry-export
 // Add the Log exporter into the logRecordProcessor and register it with the LoggerProvider
 const exporter = new AzureMonitorLogExporter({
   connectionString:
-    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] ,
+    "InstrumentationKey=775bf917-c707-4eff-a34e-aac0c0b57752;IngestionEndpoint=https://uksouth-1.in.applicationinsights.azure.com/;LiveEndpoint=https://uksouth.livediagnostics.monitor.azure.com/;ApplicationId=a65cdefe-04e5-4a00-a160-8dbb83f612fb",
 });
 
 const { metrics, trace } = require("@opentelemetry/api");
@@ -16,7 +16,7 @@ const { useAzureMonitor } = require( "@azure/monitor-opentelemetry");
 const options = {
   azureMonitorExporterOptions: {
     connectionString:
-      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
+      "InstrumentationKey=775bf917-c707-4eff-a34e-aac0c0b57752;IngestionEndpoint=https://uksouth-1.in.applicationinsights.azure.com/;LiveEndpoint=https://uksouth.livediagnostics.monitor.azure.com/;ApplicationId=a65cdefe-04e5-4a00-a160-8dbb83f612fb",
   },
 }
 useAzureMonitor(options);
