@@ -1,0 +1,35 @@
+type: Microsoft.App/containerApps
+identity:
+  type: 'UserAssigned'
+  userAssignedIdentities: {
+     {{userAssignedIdentity}}
+  }
+properties:
+  managedEnvironmentId: {{managedEnvironmentId}}
+  configuration:
+    ingress:
+      external: true
+      allowInsecure: false
+      targetPort: 8000
+      traffic:
+        - latestRevision: true
+          weight: 100
+      transport: Auto
+    registries:
+      - server: {{acrName}}.azurecr.io
+        identity: {{userAssignedIdentity}}      
+  template:
+    containers:
+      - image: {{acrName}}.azurecr.io/image/{{imageRepoName}}:{{appVersion}}
+        name: {{imageRepoName}}
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Production"
+          - name: APPLICATIONINSIGHTS_CONNECTION_STRING
+            value: "InstrumentationKey=b017c421-8e58-4f3e-8d3c-3f0e2974296a;IngestionEndpoint=https://uksouth-1.in.applicationinsights.azure.com/;LiveEndpoint=https://uksouth.livediagnostics.monitor.azure.com/;ApplicationId=208245fb-288b-45b9-b18f-07c2de588583"       
+        resources:
+          cpu: 0.5
+          memory: 1Gi
+    scale:
+      minReplicas: 1
+      maxReplicas: 3  
